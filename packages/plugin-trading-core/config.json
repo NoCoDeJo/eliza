@@ -1,0 +1,66 @@
+{
+    "networks": {
+        "solana": {
+            "rpcUrl": "process.env.SOLANA_RPC_URL",
+            "wsUrl": "process.env.SOLANA_WS_URL",
+            "jupiterUrl": "process.env.JUPITER_API_URL",
+            "jitoUrl": "process.env.JITO_RPC_URL",
+            "priceApi": "process.env.PRICE_API_URL",
+            "portfolioApi": "process.env.PORTFOLIO_API_URL"
+        }
+    },
+    "trading": {
+        "defaultSlippage": 0.5,
+        "minProfitThreshold": 0.001,
+        "maxSlippage": 2.0,
+        "maxRetries": 3,
+        "retryDelay": 1000,
+        "priorityFee": {
+            "min": 100000,
+            "max": 1000000
+        }
+    },
+    "mev": {
+        "enabled": true,
+        "useJito": true,
+        "maxPriorityFee": 1000000,
+        "bundleTimeout": 5000
+    },
+    "tokens": {
+        "SOL": {
+            "address": "So11111111111111111111111111111111111111112",
+            "decimals": 9
+        },
+        "USDC": {
+            "address": "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+            "decimals": 6
+        }
+    },
+    "strategies": {
+        "basic": {
+            "timeframe": "1m",
+            "indicators": [
+                {
+                    "name": "orderbook_imbalance",
+                    "params": {
+                        "depth": 10
+                    }
+                },
+                {
+                    "name": "whale_activity",
+                    "params": {
+                        "threshold": 10000
+                    }
+                }
+            ],
+            "entryConditions": [
+                "orderbook_imbalance > 1.5",
+                "whale_activity == 'accumulation'"
+            ],
+            "exitConditions": [
+                "profit > 0.2",
+                "loss < -0.5"
+            ]
+        }
+    }
+}
